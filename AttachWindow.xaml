@@ -11,11 +11,11 @@
       DataContext="{Binding Path=DataSourceViewModel}"
       ItemsSource="{Binding Path=ConnectionStrings}" 
       SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
-      Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
+      Text="{Binding Path=Text, UpdateSourceTrigger=LostFocus}"
         />
     <TextBlock>Choose logical name for the database:</TextBlock>
     <TextBox 
-       Margin="0 4 0 20" 
+      Margin="0 4 0 20" 
       Text="{Binding Path=LogicalName, UpdateSourceTrigger=PropertyChanged}"  
       />
     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
