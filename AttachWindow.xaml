@@ -5,17 +5,21 @@
   <StackPanel Margin="10">
     <TextBlock>Choose a connection string:</TextBlock>
     <ComboBox
-       Margin="0 4 0 10"
+      Margin="0 4 0 10"
       IsEditable="True" 
-        ItemsSource="{Binding Path=ConnectionStrings}" 
-        SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
-        Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
+      ItemsSource="{Binding Path=ConnectionStrings}" 
+      SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
+      Text="{Binding Text, UpdateSourceTrigger=LostFocus}"
         />
     <TextBlock>Choose logical name for the database:</TextBlock>
     <TextBox 
-       Margin="0 4 0 20" DataContext=""></TextBox>
+       Margin="0 4 0 20" 
+      />
     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-      <Button Content="Attach" Padding="20 2 20 2" />
+      <Button 
+        Padding="20 2 20 2" 
+        Content="Attach" 
+        />
     </StackPanel>
   </StackPanel>
 </Window>
