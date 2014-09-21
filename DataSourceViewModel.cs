@@ -18,6 +18,9 @@
 
     private int selectedIndex;
 
+    [CanBeNull]
+    private string text;
+
     public DataSourceViewModel()
     {
       var collection = this.LoadConnectionStrings();
@@ -71,13 +74,20 @@
       }
     }
 
+    [CanBeNull]
     public virtual string Text
     {
+      get
+      {
+        return this.text;
+      }
       set
       {
         if (string.IsNullOrEmpty(value))
         {
           this.ConnectionStrings.RemoveAt(this.SelectedIndex);
+          this.SelectedIndex -= 1;
+          this.text = this.connectionStrings[this.SelectedIndex];
           return;
         }
 
@@ -85,6 +95,7 @@
         {
           if (value.Equals("<New>", StringComparison.OrdinalIgnoreCase))
           {
+            this.text = value;
             return;
           }
 
@@ -95,13 +106,16 @@
         {
           if (this.ConnectionStrings[this.SelectedIndex].Equals(value, StringComparison.OrdinalIgnoreCase))
           {
+            this.text = value;
             return;
           }
 
           this.ConnectionStrings[this.SelectedIndex] = value;
         }
 
+        this.text = value;
         this.SaveConnectionStrings();
+        this.OnPropertyChanged("Text");
       }
     }
 

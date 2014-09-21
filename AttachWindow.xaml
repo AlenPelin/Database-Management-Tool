@@ -16,11 +16,14 @@
     <TextBlock>Choose logical name for the database:</TextBlock>
     <TextBox 
        Margin="0 4 0 20" 
+      Text="{Binding Path=LogicalName, UpdateSourceTrigger=PropertyChanged}"  
       />
     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
       <Button 
         Padding="20 2 20 2" 
         Content="Attach" 
+        Command="{Binding Path=DoAttach}"        
+        CommandParameter="{Binding}"
         />
     </StackPanel>
   </StackPanel>

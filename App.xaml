@@ -8,6 +8,9 @@
       <dmt:AttachDatabaseViewModel.DataSourceViewModel>
         <dmt:DataSourceViewModel/>
       </dmt:AttachDatabaseViewModel.DataSourceViewModel>
+      <dmt:AttachDatabaseViewModel.DoAttach>
+        <dmt:AttachDatabaseCommand/>
+      </dmt:AttachDatabaseViewModel.DoAttach>
     </dmt:AttachDatabaseViewModel>
   </Application.Resources>
 </Application>
