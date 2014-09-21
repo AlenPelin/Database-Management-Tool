@@ -1,12 +1,14 @@
 ﻿<Window x:Class="Alienlab.DMT.AttachWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Attach Database" Height="200" Width="400">
+        Title="Attach Database" Height="200" Width="400"
+        DataContext="{StaticResource AttachDatabaseViewModel}">
   <StackPanel Margin="10">
     <TextBlock>Choose a connection string:</TextBlock>
     <ComboBox
       Margin="0 4 0 10"
       IsEditable="True" 
+      DataContext="{Binding Path=DataSourceViewModel}"
       ItemsSource="{Binding Path=ConnectionStrings}" 
       SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
       Text="{Binding Text, UpdateSourceTrigger=LostFocus}"

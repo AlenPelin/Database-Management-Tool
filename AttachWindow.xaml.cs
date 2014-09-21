@@ -10,8 +10,6 @@
     public AttachWindow()
     {
       InitializeComponent();
-
-      this.DataContext = new DataSourceViewModel();
     }
   }
 }

@@ -58,6 +58,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Assert.cs" />
+    <Compile Include="AttachDatabaseViewModel.cs" />
     <Compile Include="DataSourceViewModel.cs" />
     <Compile Include="AttachWindow.xaml.cs">
       <DependentUpon>AttachWindow.xaml</DependentUpon>
