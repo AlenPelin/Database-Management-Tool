@@ -1,3 +1,12 @@
 obj/
 bin/
 *.suo
+*.user
+packages/
+Microsoft.SqlServer.ConnectionInfo.dll
+Microsoft.SqlServer.ConnectionInfoExtended.dll
+Microsoft.SqlServer.Management.Sdk.Sfc.dll
+Microsoft.SqlServer.Smo.dll
+Microsoft.SqlServer.SmoExtended.dll
+Microsoft.SqlServer.SqlClrProvider.dll
+Microsoft.SqlServer.SqlEnum.dll

@@ -1,8 +1,12 @@
 ﻿namespace Alienlab.DMT
 {
   using System;
+  using System.Collections.Specialized;
+  using System.Data.SqlClient;
   using System.Windows;
   using System.Windows.Input;
+  using Microsoft.SqlServer.Management.Common;
+  using Microsoft.SqlServer.Management.Smo;
 
   public class AttachDatabaseCommand : ICommand
   {
@@ -13,7 +17,50 @@
     public void Execute(object parameter)
     {
       var viewModel = (AttachDatabaseViewModel)parameter;
-      var connectionString = viewModel.DataSourceViewModel.Text;
+      var connectionString = GetConnectionString(viewModel);
+      if (connectionString == null)
+      {
+        return;
+      }
+
+      if (string.IsNullOrEmpty(viewModel.LogicalName))
+      {
+        MessageBox.Show("The logical name is not provided", "Database Management Tool");
+        return;
+      }
+
+      var connection = new ServerConnection(connectionString.DataSource, connectionString.UserID, connectionString.Password)
+      {
+        ConnectTimeout = 1        
+      };
+
+      var server = new Server(connection);
+      try
+      {
+        server.AttachDatabase(viewModel.LogicalName, new StringCollection { viewModel.PhysicalPath });
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show("An error ocurred. " + PrintError(ex), "Database Management Tool", MessageBoxButton.OK, MessageBoxImage.Error);
+      }
+    }
+
+    private static SqlConnectionStringBuilder GetConnectionString(AttachDatabaseViewModel viewModel)
+    {
+      try
+      {
+        return new SqlConnectionStringBuilder(viewModel.DataSourceViewModel.Text);
+      }
+      catch
+      {
+        MessageBox.Show("The provided connection string does not seem to be valid. ", "Database Management Tool");
+        return null;
+      }
+    }
+
+    private string PrintError(Exception exception)
+    {
+      return exception.Message + Environment.NewLine + (exception.InnerException != null ? "Inner exception: " + this.PrintError(exception.InnerException) : string.Empty);
     }
 
     /// <summary>
