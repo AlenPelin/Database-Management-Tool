@@ -21,7 +21,13 @@
     {
       get
       {
-        return this.physicalPath ?? Environment.GetCommandLineArgs().Skip(1).FirstOrDefault() ?? (this.physicalPath = this.ChooseDatabaseFile());
+        var paramWords = Environment.GetCommandLineArgs().Skip(1).ToArray();
+        if (paramWords.Any())
+        {
+          return string.Join(" ", paramWords);
+        }
+
+        return this.physicalPath ?? (this.physicalPath = this.ChooseDatabaseFile());
       }
     }
 
