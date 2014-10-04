@@ -95,6 +95,8 @@
           this.ConnectionStrings.RemoveAt(this.SelectedIndex);
           this.SelectedIndex -= 1;
           this.text = this.connectionStrings[this.SelectedIndex];
+          this.SaveConnectionStrings();
+          this.OnPropertyChanged("Text");
           return;
         }
 
