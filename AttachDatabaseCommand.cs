@@ -35,37 +35,66 @@
         ConnectTimeout = 1        
       };
 
-      var server = new Server(connection);
       try
       {
         var physicalPath = viewModel.PhysicalPath;
-        Assert.IsNotNull(physicalPath, "physicalPath");
-
-        var serviceAccount = GetServiceAccount(server);
-        Assert.IsNotNull(serviceAccount, "serviceAccount");
+        Assert.IsNotNull(physicalPath, string.Empty);
 
         try
         {
-          SecurityHelper.EnsureFilePermissions(physicalPath, serviceAccount);
-        }
-        catch (Exception ex)
-        {
-          this.HandleError("Cannot ensure security permissions, but will try to attach anyway. ", ex);
-        }
+          var server = new Server(connection);
 
-        try
-        {
-          server.AttachDatabase(viewModel.LogicalName, new StringCollection { physicalPath });
-          Application.Current.MainWindow.Close();
+          // test connection
+          Assert.IsNotNull(server.Databases.Count, string.Empty);
+
+          try
+          {
+            var serviceAccount = GetServiceAccount(server);
+            Assert.IsNotNull(serviceAccount, "serviceAccount");
+
+            try
+            {
+              SecurityHelper.EnsureFilePermissions(physicalPath, serviceAccount);
+            }
+            catch (Exception ex)
+            {
+              var inner = ex.InnerException;
+              if (inner != null)
+              {
+                var inner2 = inner.InnerException;
+                if (inner2 != null && inner2.Message.ToLowerInvariant().Contains(".ldf\""))
+                {
+                  this.HandleError("It looks like the database's log file failed to attach, but the most likely the database itself was attached with newly created .LDF file. ", ex);
+                  Application.Current.MainWindow.Close();
+                }
+              }
+
+              this.HandleError("Cannot ensure security permissions, but will try to attach anyway. ", ex);
+            }
+
+            try
+            {
+              server.AttachDatabase(viewModel.LogicalName, new StringCollection { physicalPath });
+              Application.Current.MainWindow.Close();
+            }
+            catch (Exception ex)
+            {
+              this.HandleError("Cannot attach the database. ", ex);
+            }
+          }
+          catch (Exception ex)
+          {
+            this.HandleError("Cannot retrieve SQL server metadata. ", ex);
+          }
         }
         catch (Exception ex)
         {
-          this.HandleError("Cannot attach the database. ", ex);
+          this.HandleError("Cannot connect to the server. ", ex);
         }
       }
       catch (Exception ex)
       {
-        this.HandleError("Cannot retrieve SQL server metadata. ", ex);
+        this.HandleError("The database file path is not specified. ", ex);
       }
     }
 
