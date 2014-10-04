@@ -95,34 +95,34 @@
           this.ConnectionStrings.RemoveAt(this.SelectedIndex);
           this.SelectedIndex -= 1;
           this.text = this.connectionStrings[this.SelectedIndex];
-          this.SaveConnectionStrings();
-          this.OnPropertyChanged("Text");
-          return;
-        }
-
-        if (this.SelectedIndex == this.ConnectionStrings.Count - 1)
-        {
-          if (value.Equals("<New>", StringComparison.OrdinalIgnoreCase))
-          {
-            this.text = value;
-            return;
-          }
-
-          var index = this.ConnectionStrings.Count - 1;
-          this.ConnectionStrings.Insert(index >= 0 ? index : 0, value);
         }
         else
         {
-          if (this.ConnectionStrings[this.SelectedIndex].Equals(value, StringComparison.OrdinalIgnoreCase))
+          if (this.SelectedIndex == this.ConnectionStrings.Count - 1)
           {
-            this.text = value;
-            return;
+            if (value.Equals("<New>", StringComparison.OrdinalIgnoreCase))
+            {
+              this.text = value;
+              return;
+            }
+
+            var index = this.ConnectionStrings.Count - 1;
+            this.ConnectionStrings.Insert(index >= 0 ? index : 0, value);
+          }
+          else
+          {
+            if (this.ConnectionStrings[this.SelectedIndex].Equals(value, StringComparison.OrdinalIgnoreCase))
+            {
+              this.text = value;
+              return;
+            }
+
+            this.ConnectionStrings[this.SelectedIndex] = value;
           }
 
-          this.ConnectionStrings[this.SelectedIndex] = value;
+          this.text = value;
         }
 
-        this.text = value;
         this.SaveConnectionStrings();
         this.OnPropertyChanged("Text");
       }
