@@ -24,96 +24,115 @@
         return;
       }
 
-      if (string.IsNullOrEmpty(viewModel.LogicalName))
+      var logicalName = viewModel.LogicalName;
+      if (string.IsNullOrEmpty(logicalName))
       {
-        MessageBox.Show("The logical name is not provided", "Database Management Tool");
+        this.HandleError("The database logical name is not provided. ");
         return;
       }
 
-      var connection = new ServerConnection(connectionString.DataSource, connectionString.UserID, connectionString.Password)
+      var physicalPath = viewModel.PhysicalPath;
+      if (string.IsNullOrEmpty(physicalPath))
       {
-        ConnectTimeout = 1        
-      };
+        this.HandleError("The database file path is not specified. ");
+        return;
+      }
 
+      var server = this.Connect(connectionString);
+      if (server == null)
+      {
+        return;
+      }
+
+      var serviceAccount = this.GetServiceAccount(server);
+      if (serviceAccount == null)
+      {
+        return;
+      }
+
+      this.EnsureFilePermissions(physicalPath, serviceAccount);
+
+      this.AttachDatabase(server, logicalName, physicalPath);
+    }
+
+    private void AttachDatabase(Server server, string logicalName, string physicalPath)
+    {
       try
       {
-        var physicalPath = viewModel.PhysicalPath;
-        Assert.IsNotNull(physicalPath, string.Empty);
-
-        try
-        {
-          var server = new Server(connection);
-
-          // test connection
-          Assert.IsNotNull(server.Databases.Count, string.Empty);
-
-          try
-          {
-            var serviceAccount = GetServiceAccount(server);
-            Assert.IsNotNull(serviceAccount, "serviceAccount");
-
-            try
-            {
-              SecurityHelper.EnsureFilePermissions(physicalPath, serviceAccount);
-            }
-            catch (Exception ex)
-            {
-              var inner = ex.InnerException;
-              if (inner != null)
-              {
-                var inner2 = inner.InnerException;
-                if (inner2 != null && inner2.Message.ToLowerInvariant().Contains(".ldf\""))
-                {
-                  this.HandleError("It looks like the database's log file failed to attach, but the most likely the database itself was attached with newly created .LDF file. ", ex);
-                  Application.Current.MainWindow.Close();
-                }
-              }
-
-              this.HandleError("Cannot ensure security permissions, but will try to attach anyway. ", ex);
-            }
-
-            try
-            {
-              server.AttachDatabase(viewModel.LogicalName, new StringCollection { physicalPath });
-              Application.Current.MainWindow.Close();
-            }
-            catch (Exception ex)
-            {
-              this.HandleError("Cannot attach the database. ", ex);
-            }
-          }
-          catch (Exception ex)
-          {
-            this.HandleError("Cannot retrieve SQL server metadata. ", ex);
-          }
-        }
-        catch (Exception ex)
-        {
-          this.HandleError("Cannot connect to the server. ", ex);
-        }
+        server.AttachDatabase(logicalName, new StringCollection { physicalPath });
+        Application.Current.MainWindow.Close();
       }
       catch (Exception ex)
       {
-        this.HandleError("The database file path is not specified. ", ex);
+        this.HandleError("Cannot attach the database. ", ex);
       }
     }
 
-    private void HandleError(string message, Exception ex)
+    private void EnsureFilePermissions(string physicalPath, SecurityIdentifier serviceAccount)
+    {
+      try
+      {
+        SecurityHelper.EnsureFilePermissions(physicalPath, serviceAccount);
+      }
+      catch (Exception ex)
+      {
+        var inner = ex.InnerException;
+        if (inner != null)
+        {
+          var inner2 = inner.InnerException;
+          if (inner2 != null && inner2.Message.ToLowerInvariant().Contains(".ldf\""))
+          {
+            this.HandleError("It looks like the database's log file failed to attach, but the most likely the database itself was attached with newly created .LDF file. ", ex);
+            Application.Current.MainWindow.Close();
+          }
+        }
+
+        this.HandleError("Cannot ensure security permissions, but will try to attach anyway. ", ex);
+      }
+    }
+
+    private Server Connect(SqlConnectionStringBuilder connectionString)
+    {
+      var connection = new ServerConnection(connectionString.DataSource, connectionString.UserID, connectionString.Password) { ConnectTimeout = 1 };
+
+      var server = new Server(connection);
+      try
+      {
+        // test connection
+        Assert.IsNotNull(server.Databases.Count, string.Empty);
+        return server;
+      }
+      catch (Exception ex)
+      {
+        this.HandleError("Cannot connect to the server. ", ex);
+        return null;
+      }
+    }
+
+    private void HandleError(string message, Exception ex = null)
     {
       MessageBox.Show(message + this.PrintError(ex), "Database Management Tool", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
-    private static SecurityIdentifier GetServiceAccount(Server server)
+    private SecurityIdentifier GetServiceAccount(Server server)
     {
-      var serviceAccountSidProperty = server.Properties["ServiceAccountSid"];
-      Assert.IsNotNull(serviceAccountSidProperty, "The serviceAccountSid property is null");
+      try
+      {
+        var serviceAccountSidProperty = server.Properties["ServiceAccountSid"];
+        Assert.IsNotNull(serviceAccountSidProperty, "The serviceAccountSid property is null");
 
-      var serviceAccountSidBytes = serviceAccountSidProperty.Value as byte[];
-      Assert.IsNotNull(serviceAccountSidBytes, "serviceAccountSidBytes");
+        var serviceAccountSidBytes = serviceAccountSidProperty.Value as byte[];
+        Assert.IsNotNull(serviceAccountSidBytes, "serviceAccountSidBytes");
 
-      var serviceAccount = new SecurityIdentifier(serviceAccountSidBytes, 0);
+        var serviceAccount = new SecurityIdentifier(serviceAccountSidBytes, 0);
 
-      return serviceAccount;
+        return serviceAccount;
+      }
+      catch (Exception ex)
+      {
+        this.HandleError("Cannot retrieve SQL server metadata. ", ex);
+        return null;
+      }
     }
 
     private static SqlConnectionStringBuilder GetConnectionString(AttachDatabaseViewModel viewModel)
@@ -131,7 +150,7 @@
 
     private string PrintError(Exception exception)
     {
-      return exception.Message + Environment.NewLine + (exception.InnerException != null ? "Inner exception: " + this.PrintError(exception.InnerException) : string.Empty);
+      return exception == null ? string.Empty : exception.Message + Environment.NewLine + (exception.InnerException != null ? "Inner exception: " + this.PrintError(exception.InnerException) : string.Empty);
     }
 
     /// <summary>
