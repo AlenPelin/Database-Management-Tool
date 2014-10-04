@@ -85,6 +85,13 @@
       {
         if (string.IsNullOrEmpty(value))
         {
+          if (this.SelectedIndex == this.ConnectionStrings.Count - 1)
+          {
+            // user tries to delete the <New> item, we should not allow doing that
+            this.text = "<New>";
+            return;
+          }
+
           this.ConnectionStrings.RemoveAt(this.SelectedIndex);
           this.SelectedIndex -= 1;
           this.text = this.connectionStrings[this.SelectedIndex];
