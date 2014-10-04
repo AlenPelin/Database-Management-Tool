@@ -3,6 +3,7 @@
   using System;
   using System.Collections.Specialized;
   using System.Data.SqlClient;
+  using System.Security.Principal;
   using System.Windows;
   using System.Windows.Input;
   using Microsoft.SqlServer.Management.Common;
@@ -37,6 +38,9 @@
       var server = new Server(connection);
       try
       {
+        var serviceAccount = new SecurityIdentifier(server.Properties["ServiceAccountSid"].Value as byte[], 0);
+        Assert.IsNotNull(serviceAccount, "serviceAccount");
+        SecurityHelper.EnsureFilePermissions(viewModel.PhysicalPath, serviceAccount);
         server.AttachDatabase(viewModel.LogicalName, new StringCollection { viewModel.PhysicalPath });
       }
       catch (Exception ex)
