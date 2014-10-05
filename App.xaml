@@ -11,5 +11,13 @@
         <dmt:AttachDatabaseCommand/>
       </dmt:AttachDatabaseViewModel.DoAttach>
     </dmt:AttachDatabaseViewModel>
+    <dmt:DetachDatabaseViewModel x:Key="DetachDatabaseViewModel">
+      <dmt:DetachDatabaseViewModel.DataSourceViewModel>
+        <dmt:DataSourceViewModel/>
+      </dmt:DetachDatabaseViewModel.DataSourceViewModel>
+      <dmt:DetachDatabaseViewModel.DoDetach>
+        <dmt:DetachDatabaseCommand/>
+      </dmt:DetachDatabaseViewModel.DoDetach>
+    </dmt:DetachDatabaseViewModel>
   </Application.Resources>
 </Application>

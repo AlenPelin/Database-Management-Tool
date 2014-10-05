@@ -24,7 +24,11 @@
         case DatabaseAction.Attach:
           var mainWindow = new AttachWindow();
           mainWindow.ShowDialog();
-            return;
+          return;
+        case DatabaseAction.Detach:
+          var detachDatabaseWindow = new DetachWindow();
+          detachDatabaseWindow.ShowDialog();
+          return;
         default:
           mainWindow = new AttachWindow();
           mainWindow.Show();
@@ -39,7 +43,7 @@
       {
         case "-attach":
           return DatabaseAction.Attach;
-        case "-detachh":
+        case "-detach":
           return DatabaseAction.Detach;
         default:
           // TODO: Replace this with native Windows select dialolg with two options
