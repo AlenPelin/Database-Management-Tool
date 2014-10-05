@@ -11,7 +11,6 @@ REG ADD "hkcu\Software\Classes\SQLServer.Engine.PrimaryDataFile\shell\Attach Dat
 
 REG ADD "hkcu\Software\Classes\SQLServer.Engine.PrimaryDataFile\shell\Detach Database" /ve /t REG_SZ /d "Detach Database" /f
 REG ADD "hkcu\Software\Classes\SQLServer.Engine.PrimaryDataFile\shell\Detach Database" /v Icon /t REG_SZ /d "%CD%\detach.ico" /f
-REG ADD "hkcu\Software\Classes\SQLServer.Engine.PrimaryDataFile\shell\Detach Database" /v MultiSelectModel /t REG_SZ /d Single /f
 REG ADD "hkcu\Software\Classes\SQLServer.Engine.PrimaryDataFile\shell\Detach Database\command" /ve /t REG_SZ /d "%CD%\DatabaseManagementTool.exe -detach %%1" /f
 
 ECHO.
