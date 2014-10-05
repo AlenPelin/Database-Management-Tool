@@ -116,8 +116,12 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="attach.ico" />
-    <Resource Include="detach.ico" />
+    <Content Include="attach.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="detach.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DoInstall.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
