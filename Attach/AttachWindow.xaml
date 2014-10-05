@@ -2,10 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Attach Database" Height="200" Width="400"
+        FocusManager.FocusedElement="{Binding ElementName=LogicalNameTextbox}"
         DataContext="{StaticResource AttachDatabaseViewModel}" Icon="/attach.ico" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
   <StackPanel Margin="10">
     <TextBlock>Choose logical name for the database:</TextBlock>
     <TextBox       
+      x:Name="LogicalNameTextbox"
       Margin="0 4 0 20" 
       Text="{Binding Path=LogicalName, UpdateSourceTrigger=PropertyChanged}"  
     />

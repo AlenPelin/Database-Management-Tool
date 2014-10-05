@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Detach Database" Height="146" Width="400"
+        FocusManager.FocusedElement="{Binding ElementName=DetachButton}"
         DataContext="{StaticResource DetachDatabaseViewModel}" Icon="/detach.ico" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
   <StackPanel Margin="10">
     <TextBlock>Choose a connection string:</TextBlock>
@@ -15,6 +16,7 @@
         />
     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
       <Button 
+        x:Name="DetachButton"
         Padding="20 2 20 2" 
         Content="Detach" 
         Command="{Binding Path=DoDetach}"        
