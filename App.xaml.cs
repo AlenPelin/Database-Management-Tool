@@ -3,6 +3,7 @@
   using System.Linq;
   using System.Windows;
   using System.Windows.Media;
+  using TaskDialogInterop;
 
   public enum DatabaseAction
   {
@@ -71,9 +72,8 @@
         case "-detach":
           return DatabaseAction.Detach;
         default:
-          // TODO: Replace this with native Windows select dialolg with two options
-          var result = MessageBox.Show("Would you like to attach the database? Select No to detach.", "Database Management Tool", MessageBoxButton.YesNoCancel);
-          return result == MessageBoxResult.Yes ? DatabaseAction.Attach : result == MessageBoxResult.No ? DatabaseAction.Detach : DatabaseAction.Exit;
+          Helper.HandleError("The application expects two command-line parameters:\n1. Action (-attach or -detach)\n2. Database file path (.mdf)");
+          return DatabaseAction.Exit;
       }
     }
   }
