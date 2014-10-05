@@ -4,6 +4,11 @@
         Title="Attach Database" Height="200" Width="400"
         DataContext="{StaticResource AttachDatabaseViewModel}" Icon="/attach.ico" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
   <StackPanel Margin="10">
+    <TextBlock>Choose logical name for the database:</TextBlock>
+    <TextBox       
+      Margin="0 4 0 20" 
+      Text="{Binding Path=LogicalName, UpdateSourceTrigger=PropertyChanged}"  
+    />
     <TextBlock>Choose a connection string:</TextBlock>
     <ComboBox
       Margin="0 4 0 10"
@@ -13,11 +18,6 @@
       SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
       Text="{Binding Path=Text, UpdateSourceTrigger=LostFocus}"
         />
-    <TextBlock>Choose logical name for the database:</TextBlock>
-    <TextBox 
-      Margin="0 4 0 20" 
-      Text="{Binding Path=LogicalName, UpdateSourceTrigger=PropertyChanged}"  
-      />
     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
       <Button 
         Padding="20 2 20 2" 
