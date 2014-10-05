@@ -1,8 +1,10 @@
 ﻿namespace Alienlab.DMT
 {
+  using System;
   using System.Linq;
   using System.Windows;
   using System.Windows.Input;
+  using System.Windows.Media;
 
   /// <summary>
   /// Interaction logic for App.xaml
@@ -26,6 +28,21 @@
           mainWindow.ShowDialog();
           return;
         case DatabaseAction.Detach:
+          if (!args.Skip(1).Any())
+          {
+            MessageBox.Show("The database file path is not specified.", "Database Management Tool", MessageBoxButton.OK, MessageBoxImage.Error);
+            var window = new Window
+            {
+              WindowStyle = WindowStyle.None,
+              Background = Brushes.Transparent,
+              Left = 9999
+            };
+
+            window.Show();
+            window.Close();
+            return;
+          }
+
           var detachDatabaseWindow = new DetachWindow();
           detachDatabaseWindow.ShowDialog();
           return;

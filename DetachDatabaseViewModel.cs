@@ -23,26 +23,8 @@
           return string.Join(" ", paramWords);
         }
 
-        return this.physicalPath ?? (this.physicalPath = this.ChooseDatabaseFile());
+        return null;
       }
-    }
-
-    private string ChooseDatabaseFile()
-    {
-      var openFileDialog = new OpenFileDialog
-      {
-        AddExtension = true,
-        ReadOnlyChecked = true,
-        ShowReadOnly = true,
-        Filter = "MS SQL Server Database File (*.MDF)|*.mdf",
-        InitialDirectory = Path.GetPathRoot(Environment.ExpandEnvironmentVariables(Environment.SystemDirectory)),
-        Multiselect = false,
-        Title = "Choose MS SQL Server Database .MDF File"
-      };
-
-      var result = openFileDialog.ShowDialog();
-      
-      return result.HasValue && result.Value ? openFileDialog.FileName : null;
     }
   }
 }
