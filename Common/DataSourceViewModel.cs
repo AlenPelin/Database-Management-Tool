@@ -25,6 +25,7 @@
       var collection = this.LoadConnectionStrings();
       Assert.IsNotNull(collection, "collection");
 
+      this.text = collection.FirstOrDefault();
       collection.Add("<New>");
 
       this.connectionStrings = collection;
