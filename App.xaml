@@ -1,8 +1,7 @@
 ﻿<Application x:Class="Alienlab.DMT.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:dmt="clr-namespace:Alienlab.DMT"
-             StartupUri="AttachWindow.xaml">
+             xmlns:dmt="clr-namespace:Alienlab.DMT">
   <Application.Resources>
     <dmt:AttachDatabaseViewModel x:Key="AttachDatabaseViewModel">
       <dmt:AttachDatabaseViewModel.DataSourceViewModel>

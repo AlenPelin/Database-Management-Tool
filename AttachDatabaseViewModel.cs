@@ -21,7 +21,7 @@
     {
       get
       {
-        var paramWords = Environment.GetCommandLineArgs().Skip(1).ToArray();
+        var paramWords = Environment.GetCommandLineArgs().Skip(2).ToArray();
         if (paramWords.Any())
         {
           return string.Join(" ", paramWords);
