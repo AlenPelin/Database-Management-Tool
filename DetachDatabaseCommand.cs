@@ -5,10 +5,9 @@
   using System.Linq;
   using System.Windows;
   using System.Windows.Input;
-  using Microsoft.SqlServer.Management.Common;
   using Microsoft.SqlServer.Management.Smo;
 
-  public class DetachDatabaseCommand : ICommand
+  public class DetachDatabaseCommand : AbstractCommand, ICommand
   {
     /// <summary>
     /// Defines the method to be called when the command is invoked.
@@ -26,7 +25,7 @@
       var physicalPath = viewModel.PhysicalPath;
       if (string.IsNullOrEmpty(physicalPath))
       {
-        this.HandleError("The database file path is not specified. ");
+        Helper.HandleError("The database file path is not specified. ");
         return;
       }
 
@@ -60,12 +59,12 @@
           }
         }
 
-        this.HandleError("The database is not attached to the specified SQL server. ");
+        Helper.HandleError("The database is not attached to the specified SQL server. ");
         return null;
       }
       catch (Exception ex)
       {
-        this.HandleError("The error occurred while looking for the database in the specified SQL server. ", ex);
+        Helper.HandleError("The error occurred while looking for the database in the specified SQL server. ", ex);
         return null;
       }
     }
@@ -79,31 +78,8 @@
       }
       catch (Exception ex)
       {
-        this.HandleError("Cannot detach the database. ", ex);
+        Helper.HandleError("Cannot detach the database. ", ex);
       }
-    }
-
-    private Server Connect(SqlConnectionStringBuilder connectionString)
-    {
-      var connection = new ServerConnection(connectionString.DataSource, connectionString.UserID, connectionString.Password) { ConnectTimeout = 1 };
-
-      var server = new Server(connection);
-      try
-      {
-        // test connection
-        Assert.IsNotNull(server.Databases.Count, string.Empty);
-        return server;
-      }
-      catch (Exception ex)
-      {
-        this.HandleError("Cannot connect to the server. ", ex);
-        return null;
-      }
-    }
-
-    private void HandleError(string message, Exception ex = null)
-    {
-      MessageBox.Show(message + this.PrintError(ex), "Database Management Tool", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
     private static SqlConnectionStringBuilder GetConnectionString(DetachDatabaseViewModel viewModel)
@@ -117,11 +93,6 @@
         MessageBox.Show("The provided connection string does not seem to be valid. ", "Database Management Tool");
         return null;
       }
-    }
-
-    private string PrintError(Exception exception)
-    {
-      return exception == null ? string.Empty : exception.Message + Environment.NewLine + (exception.InnerException != null ? "Inner exception: " + this.PrintError(exception.InnerException) : string.Empty);
     }
 
     /// <summary>

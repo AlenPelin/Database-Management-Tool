@@ -6,10 +6,9 @@
   using System.Security.Principal;
   using System.Windows;
   using System.Windows.Input;
-  using Microsoft.SqlServer.Management.Common;
   using Microsoft.SqlServer.Management.Smo;
 
-  public class AttachDatabaseCommand : ICommand
+  public class AttachDatabaseCommand : AbstractCommand, ICommand
   {
     /// <summary>
     /// Defines the method to be called when the command is invoked.
@@ -27,14 +26,14 @@
       var logicalName = viewModel.LogicalName;
       if (string.IsNullOrEmpty(logicalName))
       {
-        this.HandleError("The database logical name is not provided. ");
+        Helper.HandleError("The database logical name is not provided. ");
         return;
       }
 
       var physicalPath = viewModel.PhysicalPath;
       if (string.IsNullOrEmpty(physicalPath))
       {
-        this.HandleError("The database file path is not specified. ");
+        Helper.HandleError("The database file path is not specified. ");
         return;
       }
 
@@ -64,7 +63,7 @@
       }
       catch (Exception ex)
       {
-        this.HandleError("Cannot attach the database. ", ex);
+        Helper.HandleError("Cannot attach the database. ", ex);
       }
     }
 
@@ -82,38 +81,15 @@
           var inner2 = inner.InnerException;
           if (inner2 != null && inner2.Message.ToLowerInvariant().Contains(".ldf\""))
           {
-            this.HandleError("It looks like the database's log file failed to attach, but the most likely the database itself was attached with newly created .LDF file. ", ex);
+            Helper.HandleError("It looks like the database's log file failed to attach, but the most likely the database itself was attached with newly created .LDF file. ", ex);
             Application.Current.MainWindow.Close();
           }
         }
 
-        this.HandleError("Cannot ensure security permissions, but will try to attach anyway. ", ex);
+        Helper.HandleError("Cannot ensure security permissions, but will try to attach anyway. ", ex);
       }
     }
-
-    private Server Connect(SqlConnectionStringBuilder connectionString)
-    {
-      var connection = new ServerConnection(connectionString.DataSource, connectionString.UserID, connectionString.Password) { ConnectTimeout = 1 };
-
-      var server = new Server(connection);
-      try
-      {
-        // test connection
-        Assert.IsNotNull(server.Databases.Count, string.Empty);
-        return server;
-      }
-      catch (Exception ex)
-      {
-        this.HandleError("Cannot connect to the server. ", ex);
-        return null;
-      }
-    }
-
-    private void HandleError(string message, Exception ex = null)
-    {
-      MessageBox.Show(message + this.PrintError(ex), "Database Management Tool", MessageBoxButton.OK, MessageBoxImage.Error);
-    }
-
+    
     private SecurityIdentifier GetServiceAccount(Server server)
     {
       try
@@ -130,7 +106,7 @@
       }
       catch (Exception ex)
       {
-        this.HandleError("Cannot retrieve SQL server metadata. ", ex);
+        Helper.HandleError("Cannot retrieve SQL server metadata. ", ex);
         return null;
       }
     }
@@ -146,11 +122,6 @@
         MessageBox.Show("The provided connection string does not seem to be valid. ", "Database Management Tool");
         return null;
       }
-    }
-
-    private string PrintError(Exception exception)
-    {
-      return exception == null ? string.Empty : exception.Message + Environment.NewLine + (exception.InnerException != null ? "Inner exception: " + this.PrintError(exception.InnerException) : string.Empty);
     }
 
     /// <summary>

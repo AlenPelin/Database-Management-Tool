@@ -81,11 +81,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AbstractCommand.cs" />
     <Compile Include="DetachDatabaseCommand.cs" />
     <Compile Include="DetachDatabaseViewModel.cs" />
     <Compile Include="DetachWindow.xaml.cs">
       <DependentUpon>DetachWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="SecurityProvider.cs" />
     <Page Include="DetachWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

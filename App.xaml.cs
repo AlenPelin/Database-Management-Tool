@@ -1,10 +1,15 @@
 ﻿namespace Alienlab.DMT
 {
-  using System;
   using System.Linq;
   using System.Windows;
-  using System.Windows.Input;
   using System.Windows.Media;
+
+  public enum DatabaseAction
+  {
+    Attach,
+    Detach,
+    Exit
+  }
 
   /// <summary>
   /// Interaction logic for App.xaml
@@ -31,15 +36,7 @@
           if (!args.Skip(1).Any())
           {
             MessageBox.Show("The database file path is not specified.", "Database Management Tool", MessageBoxButton.OK, MessageBoxImage.Error);
-            var window = new Window
-            {
-              WindowStyle = WindowStyle.None,
-              Background = Brushes.Transparent,
-              Left = 9999
-            };
-
-            window.Show();
-            window.Close();
+            CloseApplication();
             return;
           }
 
@@ -47,11 +44,22 @@
           detachDatabaseWindow.ShowDialog();
           return;
         default:
-          mainWindow = new AttachWindow();
-          mainWindow.Show();
-          mainWindow.Close();
+          CloseApplication();
           return;
       }
+    }
+
+    private static void CloseApplication()
+    {
+      var window = new Window
+      {
+        WindowStyle = WindowStyle.None,
+        Background = Brushes.Transparent,
+        Left = 9999
+      };
+
+      window.Show();
+      window.Close();
     }
 
     private DatabaseAction ParseMode(string text)
@@ -68,12 +76,5 @@
           return result == MessageBoxResult.Yes ? DatabaseAction.Attach : result == MessageBoxResult.No ? DatabaseAction.Detach : DatabaseAction.Exit;
       }
     }
-  }
-
-  public enum DatabaseAction
-  {
-    Attach,
-    Detach,
-    Exit
   }
 }
