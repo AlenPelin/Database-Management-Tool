@@ -1,4 +1,4 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Common
 {
   using System;
   using System.Collections.Generic;
@@ -6,7 +6,6 @@
   using System.ComponentModel;
   using System.IO;
   using System.Linq;
-  using Alienlab.DMT.Properties;
 
   public class DataSourceViewModel : INotifyPropertyChanged
   {

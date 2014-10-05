@@ -1,7 +1,5 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Attach
 {
-  using System.Windows;
-
   /// <summary>
   /// Interaction logic for AttachWindow.xaml
   /// </summary>

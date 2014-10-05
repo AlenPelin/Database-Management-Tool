@@ -3,7 +3,9 @@
   using System.Linq;
   using System.Windows;
   using System.Windows.Media;
-  using TaskDialogInterop;
+  using Alienlab.DMT.Attach;
+  using Alienlab.DMT.Common;
+  using Alienlab.DMT.Detach;
 
   public enum DatabaseAction
   {
@@ -30,8 +32,8 @@
       switch (mode)
       {
         case DatabaseAction.Attach:
-          var mainWindow = new AttachWindow();
-          mainWindow.ShowDialog();
+          var attachWindow = new AttachWindow();
+          attachWindow.ShowDialog();
           return;
         case DatabaseAction.Detach:
           if (!args.Skip(1).Any())

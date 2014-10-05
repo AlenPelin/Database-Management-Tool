@@ -1,10 +1,10 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Detach
 {
   using System;
   using System.Data.SqlClient;
-  using System.Linq;
   using System.Windows;
   using System.Windows.Input;
+  using Alienlab.DMT.Common;
   using Microsoft.SqlServer.Management.Smo;
 
   public class DetachDatabaseCommand : AbstractCommand, ICommand

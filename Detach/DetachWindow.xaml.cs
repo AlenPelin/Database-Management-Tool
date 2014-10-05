@@ -1,7 +1,5 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Detach
 {
-  using System.Windows;
-
   /// <summary>
   /// Interaction logic for DetachWindow.xaml
   /// </summary>

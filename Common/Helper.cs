@@ -1,4 +1,4 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Common
 {
   using System;
   using System.Windows;

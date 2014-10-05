@@ -1,8 +1,6 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Common
 {
   using System;
-  using System.Collections.ObjectModel;
-  using Alienlab.DMT.Properties;
 
   public class Assert
   {    

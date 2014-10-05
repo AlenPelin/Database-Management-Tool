@@ -1,11 +1,10 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Attach
 {
   using System;
-  using System.Collections.Specialized;
-  using System.Dynamic;
   using System.IO;
   using System.Linq;
   using System.Windows.Input;
+  using Alienlab.DMT.Common;
   using Microsoft.Win32;
 
   public class AttachDatabaseViewModel

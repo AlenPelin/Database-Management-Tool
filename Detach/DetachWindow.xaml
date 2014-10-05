@@ -1,8 +1,8 @@
-﻿<Window x:Class="Alienlab.DMT.AttachWindow"
+﻿<Window x:Class="Alienlab.DMT.Detach.DetachWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Attach Database" Height="200" Width="400"
-        DataContext="{StaticResource AttachDatabaseViewModel}" Icon="attach.ico" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Detach Database" Height="146" Width="400"
+        DataContext="{StaticResource DetachDatabaseViewModel}" Icon="/detach.ico" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
   <StackPanel Margin="10">
     <TextBlock>Choose a connection string:</TextBlock>
     <ComboBox
@@ -13,16 +13,11 @@
       SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
       Text="{Binding Path=Text, UpdateSourceTrigger=LostFocus}"
         />
-    <TextBlock>Choose logical name for the database:</TextBlock>
-    <TextBox 
-      Margin="0 4 0 20" 
-      Text="{Binding Path=LogicalName, UpdateSourceTrigger=PropertyChanged}"  
-      />
     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
       <Button 
         Padding="20 2 20 2" 
-        Content="Attach" 
-        Command="{Binding Path=DoAttach}"        
+        Content="Detach" 
+        Command="{Binding Path=DoDetach}"        
         CommandParameter="{Binding}"
         />
     </StackPanel>

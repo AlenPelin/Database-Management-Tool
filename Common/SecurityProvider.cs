@@ -1,4 +1,4 @@
-namespace Alienlab.DMT
+namespace Alienlab.DMT.Common
 {
   using System;
   using System.Collections.Generic;
@@ -6,7 +6,6 @@ namespace Alienlab.DMT
   using System.Linq;
   using System.Security.AccessControl;
   using System.Security.Principal;
-  using Alienlab.DMT.Properties;
 
   public static class SecurityHelper
   {
@@ -105,36 +104,6 @@ namespace Alienlab.DMT
       Assert.ArgumentNotNull(name, "name");
 
       return new SecurityIdentifier(name).Translate(typeof(NTAccount));
-    }
-
-    /// <summary>
-    /// The ensure permissions.
-    /// </summary>
-    /// <param name="path">
-    /// The path. 
-    /// </param>
-    /// <param name="identity">
-    /// The identity. 
-    /// </param>
-    private static void EnsureDirectoryPermissions([NotNull] string path, [NotNull] IdentityReference identity)
-    {
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(identity, "identity");
-
-      DirectoryInfo dirInfo = new DirectoryInfo(path);
-      DirectorySecurity dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
-      AuthorizationRuleCollection rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
-
-      if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
-      {
-        var rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow);
-        dirSecurity.AddAccessRule(rule);
-        dirInfo.SetAccessControl(dirSecurity);
-
-        dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
-        rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
-        Assert.IsTrue(HasPermissions(rules, identity, FileSystemRights.FullControl), "The Full Control access to the '" + path + "' folder isn't permitted for " + identity.Value + ". Please fix it and then restart the process");
-      }
     }
 
     /// <summary>

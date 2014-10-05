@@ -1,4 +1,4 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Attach
 {
   using System;
   using System.Collections.Specialized;
@@ -6,6 +6,7 @@
   using System.Security.Principal;
   using System.Windows;
   using System.Windows.Input;
+  using Alienlab.DMT.Common;
   using Microsoft.SqlServer.Management.Smo;
 
   public class AttachDatabaseCommand : AbstractCommand, ICommand

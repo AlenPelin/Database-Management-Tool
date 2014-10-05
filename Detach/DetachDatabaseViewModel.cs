@@ -1,10 +1,9 @@
-﻿namespace Alienlab.DMT
+﻿namespace Alienlab.DMT.Detach
 {
   using System;
-  using System.IO;
   using System.Linq;
   using System.Windows.Input;
-  using Microsoft.Win32;
+  using Alienlab.DMT.Common;
 
   public class DetachDatabaseViewModel
   {

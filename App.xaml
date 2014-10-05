@@ -1,23 +1,25 @@
 ﻿<Application x:Class="Alienlab.DMT.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:dmt="clr-namespace:Alienlab.DMT">
+             xmlns:common="clr-namespace:Alienlab.DMT.Common"
+             xmlns:attach="clr-namespace:Alienlab.DMT.Attach"
+             xmlns:detach="clr-namespace:Alienlab.DMT.Detach">
   <Application.Resources>
-    <dmt:AttachDatabaseViewModel x:Key="AttachDatabaseViewModel">
-      <dmt:AttachDatabaseViewModel.DataSourceViewModel>
-        <dmt:DataSourceViewModel/>
-      </dmt:AttachDatabaseViewModel.DataSourceViewModel>
-      <dmt:AttachDatabaseViewModel.DoAttach>
-        <dmt:AttachDatabaseCommand/>
-      </dmt:AttachDatabaseViewModel.DoAttach>
-    </dmt:AttachDatabaseViewModel>
-    <dmt:DetachDatabaseViewModel x:Key="DetachDatabaseViewModel">
-      <dmt:DetachDatabaseViewModel.DataSourceViewModel>
-        <dmt:DataSourceViewModel/>
-      </dmt:DetachDatabaseViewModel.DataSourceViewModel>
-      <dmt:DetachDatabaseViewModel.DoDetach>
-        <dmt:DetachDatabaseCommand/>
-      </dmt:DetachDatabaseViewModel.DoDetach>
-    </dmt:DetachDatabaseViewModel>
+    <attach:AttachDatabaseViewModel x:Key="AttachDatabaseViewModel">
+      <attach:AttachDatabaseViewModel.DataSourceViewModel>
+        <common:DataSourceViewModel/>
+      </attach:AttachDatabaseViewModel.DataSourceViewModel>
+      <attach:AttachDatabaseViewModel.DoAttach>
+        <attach:AttachDatabaseCommand/>
+      </attach:AttachDatabaseViewModel.DoAttach>
+    </attach:AttachDatabaseViewModel>
+    <detach:DetachDatabaseViewModel x:Key="DetachDatabaseViewModel">
+      <detach:DetachDatabaseViewModel.DataSourceViewModel>
+        <common:DataSourceViewModel/>
+      </detach:DetachDatabaseViewModel.DataSourceViewModel>
+      <detach:DetachDatabaseViewModel.DoDetach>
+        <detach:DetachDatabaseCommand/>
+      </detach:DetachDatabaseViewModel.DoDetach>
+    </detach:DetachDatabaseViewModel>
   </Application.Resources>
 </Application>

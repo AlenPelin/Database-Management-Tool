@@ -8,7 +8,7 @@
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
-namespace Alienlab.DMT.Properties
+namespace Alienlab.DMT.Common
 {
   using System;
 

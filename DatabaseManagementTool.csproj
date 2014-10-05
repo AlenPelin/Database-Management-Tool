@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Common\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SqlServer.ConnectionInfo">
@@ -81,19 +81,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AbstractCommand.cs" />
-    <Compile Include="DetachDatabaseCommand.cs" />
-    <Compile Include="DetachDatabaseViewModel.cs" />
-    <Compile Include="DetachWindow.xaml.cs">
+    <Compile Include="Common\AbstractCommand.cs" />
+    <Compile Include="Detach\DetachDatabaseCommand.cs" />
+    <Compile Include="Detach\DetachDatabaseViewModel.cs" />
+    <Compile Include="Detach\DetachWindow.xaml.cs">
       <DependentUpon>DetachWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helper.cs" />
-    <Compile Include="SecurityProvider.cs" />
-    <Page Include="DetachWindow.xaml">
+    <Compile Include="Common\Helper.cs" />
+    <Compile Include="Common\SecurityProvider.cs" />
+    <Page Include="Detach\DetachWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AttachWindow.xaml">
+    <Page Include="Attach\AttachWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -101,24 +101,24 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Assert.cs" />
-    <Compile Include="AttachDatabaseCommand.cs" />
-    <Compile Include="AttachDatabaseViewModel.cs" />
-    <Compile Include="DataSourceViewModel.cs" />
-    <Compile Include="AttachWindow.xaml.cs">
+    <Compile Include="Common\Assert.cs" />
+    <Compile Include="Attach\AttachDatabaseCommand.cs" />
+    <Compile Include="Attach\AttachDatabaseViewModel.cs" />
+    <Compile Include="Common\DataSourceViewModel.cs" />
+    <Compile Include="Attach\AttachWindow.xaml.cs">
       <DependentUpon>AttachWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Common\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.ico" />
+    <Resource Include="Common\icon.ico" />
     <Content Include="attach.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
