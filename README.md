@@ -1,13 +1,22 @@
 # Database Management Tool #
 
-
 This is a very small tool that allows you to attach or detach database via Context Menu in Windows Explorer. 
 
-### Downloads ###
+#### Downloads ####
 
 [Download version 1.1](http://alienlab.co.uk/database-management-tool/downloads/database-management-tool%20v1.1.zip)
 
-### Release History ###
+#### Installation ####
+
+1. Extract into some folder (e.g. C:\Program Files\Database Management Tool)
+1. Run the DoInstall.bat script
+
+#### Uninstallation ####
+
+1. Run the DoUninstall.bat script
+1. Delete files
+
+#### Release History ####
 
 v.1.1 
 
