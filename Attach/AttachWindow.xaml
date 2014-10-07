@@ -7,15 +7,17 @@
         Background="{x:Static SystemColors.ControlBrush}"
         FocusManager.FocusedElement="{Binding ElementName=LogicalNameTextbox}"
         DataContext="{StaticResource AttachDatabaseViewModel}" Icon="/attach.ico" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-  <StackPanel Margin="10">
-    <TextBlock>Choose logical name for the database:</TextBlock>
-    <TextBox       
+  <StackPanel Margin="2">
+    <TextBlock FontSize="9" TextAlignment="Right">Database Management Tool v1.1</TextBlock>    
+    <StackPanel Margin="8 0 8 8">
+      <TextBlock>Choose logical name for the database:</TextBlock>
+      <TextBox       
       x:Name="LogicalNameTextbox"
       Margin="0 4 0 20" 
       Text="{Binding Path=LogicalName, UpdateSourceTrigger=PropertyChanged}"  
     />
-    <TextBlock>Choose a connection string:</TextBlock>
-    <ComboBox
+      <TextBlock>Choose a connection string:</TextBlock>
+      <ComboBox
       Margin="0 4 0 10"
       IsEditable="True" 
       DataContext="{Binding Path=DataSourceViewModel}"
@@ -23,13 +25,14 @@
       SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
       Text="{Binding Path=Text, UpdateSourceTrigger=LostFocus}"
         />
-    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-      <Button 
+      <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+        <Button 
         Padding="20 2 20 2" 
         Content="Attach" 
         Command="{Binding Path=DoAttach}"        
         CommandParameter="{Binding}"
         />
+      </StackPanel>
     </StackPanel>
   </StackPanel>
 </Window>
