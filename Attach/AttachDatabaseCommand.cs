@@ -45,12 +45,10 @@
       }
 
       var serviceAccount = this.GetServiceAccount(server);
-      if (serviceAccount == null)
+      if (serviceAccount != null)
       {
-        return;
+        this.EnsureFilePermissions(physicalPath, serviceAccount);
       }
-
-      this.EnsureFilePermissions(physicalPath, serviceAccount);
 
       this.AttachDatabase(server, logicalName, physicalPath);
     }
@@ -90,20 +88,47 @@
         Helper.HandleError("Cannot ensure security permissions, but will try to attach anyway. ", ex);
       }
     }
-    
+
     private SecurityIdentifier GetServiceAccount(Server server)
     {
       try
       {
-        var serviceAccountSidProperty = server.Properties["ServiceAccountSid"];
-        Assert.IsNotNull(serviceAccountSidProperty, "The serviceAccountSid property is null");
+        if (server.Properties.Contains("ServiceAccountSid"))
+        {
+          var serviceAccountSidProperty = server.Properties["ServiceAccountSid"];
+          Assert.IsNotNull(serviceAccountSidProperty, "serviceAccountSidProperty");
 
-        var serviceAccountSidBytes = serviceAccountSidProperty.Value as byte[];
-        Assert.IsNotNull(serviceAccountSidBytes, "serviceAccountSidBytes");
+          var serviceAccountSidBytes = serviceAccountSidProperty.Value as byte[];
+          Assert.IsNotNull(serviceAccountSidBytes, "serviceAccountSidBytes");
 
-        var serviceAccount = new SecurityIdentifier(serviceAccountSidBytes, 0);
+          return new SecurityIdentifier(serviceAccountSidBytes, 0);
+        }
 
-        return serviceAccount;
+        if (server.Properties.Contains("ServiceAccount"))
+        {
+          var servuceAccountProperty = server.Properties["ServiceAccount"];
+          Assert.IsNotNull(servuceAccountProperty, "servuceAccountProperty");
+
+          var serviceAccount = servuceAccountProperty.Value as string;
+          Assert.IsNotNull(serviceAccount, "serviceAccount");
+
+          switch (serviceAccount)
+          {
+            case @"NT AUTHORITY\NETWORKSERVICE":
+              return new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null);
+
+            case @"NT AUTHORITY\LOCAL SERVICE":
+              return new SecurityIdentifier(WellKnownSidType.LocalServiceSid, null);
+
+            case @"NT AUTHORITY\SYSTEM":
+              return new SecurityIdentifier(WellKnownSidType.LocalSystemSid, null);
+
+            case @"BUILTIN\Administrators":
+              return new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null);
+          }
+        }
+
+        return null;
       }
       catch (Exception ex)
       {
