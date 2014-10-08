@@ -16,6 +16,10 @@ This is a very small tool that allows you to attach or detach database via Conte
 1. Run the DoUninstall.bat script
 1. Delete files
 
+#### Known Issues ####
+
+1. You need manually ensure that MS SQL Server has MS full access to the .MDF file if the MS SQL Server is configured to use virtual user accounts like NT Service\MSSQLSERVER.  **Workaround:** Use Network Service account instead. [How-to](http://www.sqlservercentral.com/blogs/steve_jones/2011/12/15/how-to-change-the-sql-server-service-cccount/).
+
 #### Release History ####
 
 v.1.1 
